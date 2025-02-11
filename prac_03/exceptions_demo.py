@@ -6,12 +6,14 @@ Answer the following questions:
 3. Could you change the code to avoid the possibility of a ZeroDivisionError? OK
 """
 
+
 def get_valid_denominator(prompt):
     denominator = int(input(prompt))
     while denominator == 0:
         print("Denominator must not be 0")
         denominator = int(input(prompt))
     return denominator
+
 
 try:
     numerator = int(input("Enter the numerator: "))
@@ -21,4 +23,3 @@ try:
 except ValueError:
     print("Numerator and denominator must be valid numbers!")
 print("Finished.")
-
