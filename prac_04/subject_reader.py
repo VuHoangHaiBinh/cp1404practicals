@@ -7,8 +7,18 @@ FILENAME = "subject_data.txt"
 
 
 def main():
+    """Read data from file and display them in formatted version"""
     data = load_data()
-    print(data)
+
+    maximum_subject_length = max(len(entry[0]) for entry in data)
+    maximum_teacher_length = max(len(entry[1]) for entry in data)
+    maximum_student_length = max(len(str(entry[2])) for entry in data)
+
+    for entry in data:
+        subject = entry[0]
+        teacher = entry[1]
+        number_of_students = entry[2]
+        print(f"{subject:<{maximum_subject_length}} is taught by {teacher:<{maximum_teacher_length}} and has {number_of_students:>{maximum_student_length}} students")
 
 
 def load_data():
