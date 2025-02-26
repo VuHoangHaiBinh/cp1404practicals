@@ -24,5 +24,5 @@ for name, champion_count in name_to_champion_count.items():
     print(name, champion_count)
 print()
 print(f"These {len(champion_countries)} have won Wimbledon:")
-print(", ".join(champion_countries))
+print(", ".join(sorted(champion_countries)))
 
