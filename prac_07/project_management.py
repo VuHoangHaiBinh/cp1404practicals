@@ -72,6 +72,10 @@ def main():
 
         print(MENU)
         choice = input(">>> ").lower()
+    choice = input(f"Would you like to save to {FILENAME}? ").lower()
+    if not (choice == "n" or choice == "no"):
+        write_projects(FILENAME, projects)
+    print("Thank you for using custom-built project management software.")
 
 
 def test():
