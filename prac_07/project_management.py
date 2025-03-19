@@ -3,6 +3,7 @@ Estimated time: 30mins
 Actual time:
 """
 from project import Project
+from datetime import datetime
 
 FILENAME = "projects.txt"
 MENU = """
@@ -83,6 +84,7 @@ def test():
     incomplete_projects, completed_projects = categorize_project(projects)
     print(len(incomplete_projects)) # Expect: 4
     print(len(completed_projects)) # Expect: 1
+    print(get_valid_date("Date: ")) # Expect: input - 41/2/2020 -> retry - input - 20/2/2020 -> pass
 
 
 
@@ -123,6 +125,20 @@ def categorize_project(projects : list[Project]) -> tuple[list[Project], list[Pr
     completed_projects.sort()
     incomplete_projects.sort()
     return incomplete_projects, completed_projects
+
+
+def get_valid_date(prompt: str) -> str:
+    """Ask for date string and convert it to date format until valid and return."""
+    date = ""
+    is_valid = False
+    while not is_valid:
+        try:
+            date = input(prompt)
+            _ = datetime.strptime(date, "%d/%m/%Y") # _ means for unsed variable
+            is_valid = True
+        except ValueError:
+            print("Invalid date format!! Please try again!!")
+    return date
 
 
 if __name__ == "__main__":
