@@ -48,10 +48,10 @@ def main():
             project_choice = int(get_valid_number("Project choice: ", lower_bound=0, upper_bound=len(projects) - 1))
             choosen_project = projects[project_choice]
             print(choosen_project)
-            completion = get_valid_number("New percent: ", lower_bound=0, upper_bound=100, none_allowed=True)
-            priority = get_valid_number("New percent: ", lower_bound=1, upper_bound=None, none_allowed=True)
-            choosen_project.completion = completion if not completion else choosen_project.completion
-            choosen_project.priority = priority if not priority else choosen_project.priority
+            completion = get_valid_number("New Percentage: ", lower_bound=0, upper_bound=100, none_allowed=True)
+            priority = get_valid_number("New Priority: ", lower_bound=1, upper_bound=None, none_allowed=True)
+            choosen_project.completion = int(completion) if completion is not None else choosen_project.completion
+            choosen_project.priority = int(priority) if priority is not None else choosen_project.priority
 
         elif choice == 'a':
             print("Let's add a new project")
@@ -59,7 +59,7 @@ def main():
             start_date = get_valid_date("Start date (dd/mm/yy): ")
             priority = int(get_valid_number("Priority: ", lower_bound=1, upper_bound=None))
             estimated_cost = get_valid_number("Cost estimate: $", lower_bound=0, upper_bound=None)
-            completion = get_valid_number("Percent complete: ", lower_bound=0, upper_bound=100)
+            completion = int(get_valid_number("Percent complete: ", lower_bound=0, upper_bound=100))
             projects.append(Project(name, start_date, priority, estimated_cost, completion))
 
         elif choice == 's':
@@ -118,7 +118,7 @@ def load_projects(filename: str) -> list[Project]:
                 start_date = parameters[1]
                 priority = int(parameters[2])
                 estimated_cost = float(parameters[3])
-                completion = float(parameters[4])
+                completion = int(parameters[4])
                 projects.append(Project(name, start_date, priority, estimated_cost, completion))
     except FileNotFoundError:
         print("Filename was not found!! Please enter another valid filename")
