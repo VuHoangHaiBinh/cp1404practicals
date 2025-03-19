@@ -19,7 +19,8 @@ def main():
 
     guitars.sort()
     print("These are your current guitars:")
-    display_guitars(guitars)
+    for guitar in guitars:
+        print(guitar)
 
     write_guitars(FILENAME, guitars)
     print(f"Wrote {len(guitars)} guitars to {FILENAME}")
@@ -36,7 +37,8 @@ def test():
     write_guitars("test.csv", guitars)  # Expect: test.csv with 1,1,1 and 2,1,1
 
     guitars = read_guitars(filename)  # Expect: 2 Guitar objects (1,1,1) and (2,1,1)
-    display_guitars(guitars)  # Expect: Guitar 1: 1 (1), worth $1 - first line, properly formatted
+    for guitar in guitars:
+        print(guitar)
 
 
 def read_guitars(filename):
@@ -54,16 +56,6 @@ def write_guitars(filename, guitars):
     """Open filename to write all guitars from list."""
     with open(filename, 'w') as file:
         file.writelines(f"{guitar.name},{guitar.year},{guitar.cost}\n" for guitar in guitars)
-
-
-def display_guitars(guitars):
-    """Display all guitars in list in formatted form."""
-    max_guitar_name_length = max(len(guitar.name) for guitar in guitars)
-    max_guitar_cost_length = max(len(f"{guitar.cost:,.2f}") for guitar in guitars)
-    for i, guitar in enumerate(guitars, 1):
-        vintage_string = " (vintage)" if guitar.is_vintage() else ""
-        print(
-            f"Guitar {i}: {guitar.name:>{max_guitar_name_length}} ({guitar.year}), worth ${guitar.cost:>{max_guitar_cost_length},.2f}{vintage_string}")
 
 
 def get_valid_number(prompt):
