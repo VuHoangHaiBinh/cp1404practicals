@@ -181,6 +181,15 @@ def get_valid_number(prompt: str, lower_bound: float | None = None, upper_bound:
     return valid_number
 
 
+def write_projects(filename, projects):
+    """Read all data from projects and save them to specified file with tab as seperator."""
+    with open(filename, 'w') as file:
+        for project in projects:
+            file.write("\t".join(str(data) for data in
+                                 [project.name, project.start_date, project.priority, project.estimated_cost,
+                                  project.completion]) + "\n")
+
+
 if __name__ == "__main__":
     # main()
     test()
