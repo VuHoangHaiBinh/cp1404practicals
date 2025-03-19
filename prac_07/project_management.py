@@ -69,6 +69,11 @@ def main():
 
 def test():
     name = get_valid_name("Name: ") # Expect: input ' ' -> retry
+    print(name)
+    projects = load_projects(FILENAME) # Expect: 5 entries
+    print(len(projects))
+    projects = load_projects("a.txt") # Expect: 0 entries
+    print(len(projects))
 
 
 
@@ -79,6 +84,21 @@ def get_valid_name(prompt):
         print("Name cannot be blank")
         name = input(prompt).strip()
     return name
+
+
+def load_projects(filename) -> list[Project]:
+    """Open filename and return loaded data into list - empty if file does not exist."""
+    projects = []
+    try:
+        with open(filename, 'r') as file:
+            lines = file.readlines()[1::] # Get every rows except header
+            for line in lines:
+                parameters = line.split('\t')
+                projects.append(Project(*parameters))
+    except FileNotFoundError:
+        print("Filename was not found!! Please enter another valid filename")
+    return projects
+
 
 if __name__ == "__main__":
     # main()
