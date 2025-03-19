@@ -9,7 +9,7 @@ VINTAGE_AGE = 50
 
 
 class Guitar:
-    def __init__(self, name="", year=0, cost=0):
+    def __init__(self, name="", year=0, cost=0.0):
         """Initialize Guitar instance.
         year: int, year when guitar was made
         """
