@@ -28,7 +28,11 @@ def main():
             projects = load_projects(filename)
 
         elif choice == 'd':
-            display_projects(projects)
+            incomplete_projects, completed_projects = categorize_project(projects)
+            print("Incomplete projects:")
+            print(f"\t{project}" for project in incomplete_projects)
+            print("Completed projects:")
+            print(f"\t{project}" for project in completed_projects)
 
         elif choice == 'f':
             date = get_valid_date("Show projects that start after date (dd/mm/yy): ")
@@ -70,14 +74,19 @@ def main():
 def test():
     name = get_valid_name("Name: ") # Expect: input ' ' -> retry
     print(name)
-    projects = load_projects(FILENAME) # Expect: 5 entries
-    print(len(projects))
     projects = load_projects("a.txt") # Expect: 0 entries
     print(len(projects))
+    projects = load_projects(FILENAME) # Expect: 5 entries
+    print(len(projects))
+    for project in projects:
+        print(project)
+    incomplete_projects, completed_projects = categorize_project(projects)
+    print(len(incomplete_projects)) # Expect: 4
+    print(len(completed_projects)) # Expect: 1
 
 
 
-def get_valid_name(prompt): 
+def get_valid_name(prompt: str) -> str:
     """Repeatedly ask for name until valid."""
     name = input(prompt).strip()
     while name == '':
@@ -86,7 +95,7 @@ def get_valid_name(prompt):
     return name
 
 
-def load_projects(filename) -> list[Project]:
+def load_projects(filename: str) -> list[Project]:
     """Open filename and return loaded data into list - empty if file does not exist."""
     projects = []
     try:
@@ -94,10 +103,26 @@ def load_projects(filename) -> list[Project]:
             lines = file.readlines()[1::] # Get every rows except header
             for line in lines:
                 parameters = line.split('\t')
-                projects.append(Project(*parameters))
+                name = parameters[0]
+                start_date = parameters[1]
+                priority = int(parameters[2])
+                estimated_cost = float(parameters[3])
+                completion = float(parameters[4])
+                projects.append(Project(name, start_date, priority, estimated_cost, completion))
     except FileNotFoundError:
         print("Filename was not found!! Please enter another valid filename")
     return projects
+
+
+def categorize_project(projects : list[Project]) -> tuple[list[Project], list[Project]]:
+    """Categorize passed in projects to incomplete or completed and sort them based on priority."""
+    completed_projects = []
+    incomplete_projects = []
+    for project in projects:
+        completed_projects.append(project) if project.completion == 100 else incomplete_projects.append(project)
+    completed_projects.sort()
+    incomplete_projects.sort()
+    return incomplete_projects, completed_projects
 
 
 if __name__ == "__main__":
