@@ -9,9 +9,10 @@ def main():
         lines = file.readlines()
 
         for line in lines:
-            parameters = line.strip().split(',') 
+            parameters = line.strip().split(',')
             guitars.append(Guitar(parameters[0], int(parameters[1]), float(parameters[2])))
 
+        guitars.sort()
         for guitar in guitars:
             print(guitar)
 
