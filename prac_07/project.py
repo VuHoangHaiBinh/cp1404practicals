@@ -8,18 +8,18 @@ DATE_FORMAT = "%d/%m/%Y"
 
 
 class Project:
-    def __init__(self, name: str, start_date: str, priority: int, estimate_budget: float,
+    def __init__(self, name: str, start_date: str, priority: int, estimated_cost: float,
                  completion: float):
         """Initialize class constructor with parameters."""
         self.name = name
         self.start_date = start_date
         self.priority = priority
-        self.estimate_budget = estimate_budget
+        self.estimated_cost = estimated_cost
         self.completion = completion
 
     def __str__(self) -> str:
         """Get formatted class information."""
-        return f"{self.name}, start: {self.start_date},  priority {self.priority}, estimate: ${self.estimate_budget:.2f}, completion: {self.completion}%"
+        return f"{self.name}, start: {self.start_date},  priority {self.priority}, estimate: ${self.estimated_cost:.2f}, completion: {self.completion}%"
 
     def __lt__(self, other) -> bool:
         """Get class comparison feature."""
@@ -37,7 +37,7 @@ def test():
 
     project2 = Project("test", "10/11/2020", 1, 20.0, 0)
     projects = [project1, project2]
-    projects.sort()  # Expect project 2 first then 1
+    projects.sort()  # Expect: project 2 first then 1
     for project in projects:
         print(project)
 
