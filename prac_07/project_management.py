@@ -7,15 +7,13 @@ from datetime import datetime
 from project import Project
 
 FILENAME = "projects.txt"
-MENU = """
-- (L)oad projects  
+MENU = """- (L)oad projects  
 - (S)ave projects  
 - (D)isplay projects  
 - (F)ilter projects by date
 - (A)dd new project  
 - (U)pdate project
-- (Q)uit
-"""
+- (Q)uit"""
 
 
 def main():
@@ -33,9 +31,11 @@ def main():
         elif choice == 'd':
             incomplete_projects, completed_projects = categorize_project(projects)
             print("Incomplete projects:")
-            print(f"\t{project}" for project in incomplete_projects)
+            for project in incomplete_projects: 
+                print(f"\t{project}")
             print("Completed projects:")
-            print(f"\t{project}" for project in completed_projects)
+            for project in completed_projects: 
+                print(f"\t{project}")
 
         elif choice == 'f':
             date = get_valid_date("Show projects that start after date (dd/mm/yy): ")
@@ -74,26 +74,26 @@ def main():
 
 
 def test():
-    # name = get_valid_name("Name: ")  # Expect: input ' ' -> retry
-    # print(name)
-    # projects = load_projects("a.txt")  # Expect: 0 entries
-    # print(len(projects))
+    name = get_valid_name("Name: ")  # Expect: input ' ' -> retry
+    print(name)
+    projects = load_projects("a.txt")  # Expect: 0 entries
+    print(len(projects))
     projects = load_projects(FILENAME)  # Expect: 5 entries
-    # print(len(projects))
-    # for project in projects:
-    # print(project)
-    # incomplete_projects, completed_projects = categorize_project(projects)
-    # print(len(incomplete_projects))  # Expect: 4
-    # print(len(completed_projects))  # Expect: 1
-    # print(get_valid_date("Date: "))  # Expect: input - 41/2/2020 -> retry - input - 20/2/2020 -> pass
-    # filtered_projects = filter_projects("1/1/2022", projects)  # Expect 20/07/2022, 31/10/2022, 01/12/2022
-    # for project in filtered_projects:
-    # print(project)
-    # print(get_valid_number("Num: "))  # Expect: all number valid, letter retry
-    # print(get_valid_number("Num: ", lower_bound=0,
-    # upper_bound=100))  # Expect: all number within 0 to 100 valid, other retry
-    # print(get_valid_number("Num: ", lower_bound=0, upper_bound=100,
-    # none_allowed=True))  # Expect: all number within 0 to 100 valid and nothing, other retry
+    print(len(projects))
+    for project in projects:
+        print(project)
+    incomplete_projects, completed_projects = categorize_project(projects)
+    print(len(incomplete_projects))  # Expect: 4
+    print(len(completed_projects))  # Expect: 1
+    print(get_valid_date("Date: "))  # Expect: input - 41/2/2020 -> retry - input - 20/2/2020 -> pass
+    filtered_projects = filter_projects("1/1/2022", projects)  # Expect 20/07/2022, 31/10/2022, 01/12/2022
+    for project in filtered_projects:
+        print(project)
+    print(get_valid_number("Num: "))  # Expect: all number valid, letter retry
+    print(get_valid_number("Num: ", lower_bound=0,
+    upper_bound=100))  # Expect: all number within 0 to 100 valid, other retry
+    print(get_valid_number("Num: ", lower_bound=0, upper_bound=100,
+    none_allowed=True))  # Expect: all number within 0 to 100 valid and nothing, other retry
     write_projects("test.txt", projects)  # Expect: same as FILENAME content
 
 
@@ -191,5 +191,5 @@ def write_projects(filename, projects):
 
 
 if __name__ == "__main__":
-    # main()
-    test()
+    main()
+    # test()
