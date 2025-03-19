@@ -9,7 +9,7 @@ DATE_FORMAT = "%d/%m/%Y"
 
 class Project:
     def __init__(self, name: str, start_date: str, priority: int, estimated_cost: float,
-                 completion: float):
+                 completion: int):
         """Initialize class constructor with parameters."""
         self.name = name
         self.start_date = start_date
@@ -19,7 +19,7 @@ class Project:
 
     def __str__(self) -> str:
         """Get formatted class information."""
-        return f"{self.name}, start: {self.start_date},  priority {self.priority}, estimate: ${self.estimated_cost:.2f}, completion: {self.completion}%"
+        return f"{self.name}, start: {self.start_date}, priority {self.priority}, estimate: ${self.estimated_cost:.2f}, completion: {self.completion}%"
 
     def __lt__(self, other) -> bool:
         """Get class comparison feature."""
@@ -27,7 +27,7 @@ class Project:
 
     def is_after_date(self, date: str) -> bool:
         """Get if class start_time is after the passed in time."""
-        return datetime.strptime(self.start_date, DATE_FORMAT) > datetime.strptime(date, DATE_FORMAT)
+        return datetime.strptime(self.start_date, DATE_FORMAT) >= datetime.strptime(date, DATE_FORMAT)
 
 
 def test():
