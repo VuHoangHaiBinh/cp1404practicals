@@ -85,7 +85,9 @@ def test():
     print(len(incomplete_projects)) # Expect: 4
     print(len(completed_projects)) # Expect: 1
     print(get_valid_date("Date: ")) # Expect: input - 41/2/2020 -> retry - input - 20/2/2020 -> pass
-
+    filtered_projects = filter_projects("1/1/2022", projects) # Expect 20/07/2022, 31/10/2022, 01/12/2022
+    for project in filtered_projects:
+        print(project)
 
 
 def get_valid_name(prompt: str) -> str:
@@ -140,6 +142,13 @@ def get_valid_date(prompt: str) -> str:
             print("Invalid date format!! Please try again!!")
     return date
 
+
+def filter_projects(date : str, projects: list[Project]) -> list[Project]:
+    """Filter a list of projects that was created after a specified date and sorted."""
+    filtered_projects= [project for project in projects if project.is_after_date(date)]
+    filtered_projects.sort()
+    return filtered_projects
+    
 
 if __name__ == "__main__":
     # main()
