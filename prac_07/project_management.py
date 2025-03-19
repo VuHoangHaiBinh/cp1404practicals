@@ -1,9 +1,10 @@
 """
-Estimated time: 30mins
+Estimated time: 30 minutes
 Actual time:
 """
-from project import Project
 from datetime import datetime
+
+from project import Project
 
 FILENAME = "projects.txt"
 MENU = """
@@ -15,6 +16,7 @@ MENU = """
 - (U)pdate project
 - (Q)uit
 """
+
 
 def main():
     print("Welcome to Pythonic Project Management")
@@ -41,9 +43,9 @@ def main():
             print(project for project in filtered_projects)
 
         elif choice == 'u':
-            for index, project in enumerate(projects): 
+            for index, project in enumerate(projects):
                 print(f"{index} {project}")
-            project_choice = get_valid_number("Project choice: ", lower_bound=0, upper_bound=len(projects)-1)
+            project_choice = int(get_valid_number("Project choice: ", lower_bound=0, upper_bound=len(projects) - 1))
             choosen_project = projects[project_choice]
             print(choosen_project)
             completion = get_valid_number("New percent: ", lower_bound=0, upper_bound=100, none_allowed=True)
@@ -52,15 +54,15 @@ def main():
             choosen_project.priority = priority if not priority else choosen_project.priority
 
         elif choice == 'a':
-            print("Let's add a new project") 
+            print("Let's add a new project")
             name = get_valid_name("Name: ")
             start_date = get_valid_date("Start date (dd/mm/yy): ")
             priority = int(get_valid_number("Priority: ", lower_bound=1, upper_bound=None))
-            estimated_cost = get_valid_number("Cost estimate: $", lower_bound=0, upper_bound=None) 
+            estimated_cost = get_valid_number("Cost estimate: $", lower_bound=0, upper_bound=None)
             completion = get_valid_number("Percent complete: ", lower_bound=0, upper_bound=100)
             projects.append(Project(name, start_date, priority, estimated_cost, completion))
-        
-        elif choice == 's': 
+
+        elif choice == 's':
             filename = get_valid_name("Filename: ")
             write_projects(filename, projects)
 
@@ -71,23 +73,28 @@ def main():
         choice = input(">>> ").lower()
 
 
-
 def test():
-    name = get_valid_name("Name: ") # Expect: input ' ' -> retry
-    print(name)
-    projects = load_projects("a.txt") # Expect: 0 entries
-    print(len(projects))
-    projects = load_projects(FILENAME) # Expect: 5 entries
-    print(len(projects))
-    for project in projects:
-        print(project)
-    incomplete_projects, completed_projects = categorize_project(projects)
-    print(len(incomplete_projects)) # Expect: 4
-    print(len(completed_projects)) # Expect: 1
-    print(get_valid_date("Date: ")) # Expect: input - 41/2/2020 -> retry - input - 20/2/2020 -> pass
-    filtered_projects = filter_projects("1/1/2022", projects) # Expect 20/07/2022, 31/10/2022, 01/12/2022
-    for project in filtered_projects:
-        print(project)
+    # name = get_valid_name("Name: ")  # Expect: input ' ' -> retry
+    # print(name)
+    # projects = load_projects("a.txt")  # Expect: 0 entries
+    # print(len(projects))
+    projects = load_projects(FILENAME)  # Expect: 5 entries
+    # print(len(projects))
+    # for project in projects:
+    # print(project)
+    # incomplete_projects, completed_projects = categorize_project(projects)
+    # print(len(incomplete_projects))  # Expect: 4
+    # print(len(completed_projects))  # Expect: 1
+    # print(get_valid_date("Date: "))  # Expect: input - 41/2/2020 -> retry - input - 20/2/2020 -> pass
+    # filtered_projects = filter_projects("1/1/2022", projects)  # Expect 20/07/2022, 31/10/2022, 01/12/2022
+    # for project in filtered_projects:
+    # print(project)
+    # print(get_valid_number("Num: "))  # Expect: all number valid, letter retry
+    # print(get_valid_number("Num: ", lower_bound=0,
+    # upper_bound=100))  # Expect: all number within 0 to 100 valid, other retry
+    # print(get_valid_number("Num: ", lower_bound=0, upper_bound=100,
+    # none_allowed=True))  # Expect: all number within 0 to 100 valid and nothing, other retry
+    write_projects("test.txt", projects)  # Expect: same as FILENAME content
 
 
 def get_valid_name(prompt: str) -> str:
@@ -104,7 +111,7 @@ def load_projects(filename: str) -> list[Project]:
     projects = []
     try:
         with open(filename, 'r') as file:
-            lines = file.readlines()[1::] # Get every rows except header
+            lines = file.readlines()[1::]  # Get every row except header
             for line in lines:
                 parameters = line.split('\t')
                 name = parameters[0]
@@ -118,7 +125,7 @@ def load_projects(filename: str) -> list[Project]:
     return projects
 
 
-def categorize_project(projects : list[Project]) -> tuple[list[Project], list[Project]]:
+def categorize_project(projects: list[Project]) -> tuple[list[Project], list[Project]]:
     """Categorize passed in projects to incomplete or completed and sort them based on priority."""
     completed_projects = []
     incomplete_projects = []
@@ -136,19 +143,43 @@ def get_valid_date(prompt: str) -> str:
     while not is_valid:
         try:
             date = input(prompt)
-            _ = datetime.strptime(date, "%d/%m/%Y") # _ means for unsed variable
+            _ = datetime.strptime(date, "%d/%m/%Y")  # _ means for unsed variable
             is_valid = True
         except ValueError:
             print("Invalid date format!! Please try again!!")
     return date
 
 
-def filter_projects(date : str, projects: list[Project]) -> list[Project]:
+def filter_projects(date: str, projects: list[Project]) -> list[Project]:
     """Filter a list of projects that was created after a specified date and sorted."""
-    filtered_projects= [project for project in projects if project.is_after_date(date)]
+    filtered_projects = [project for project in projects if project.is_after_date(date)]
     filtered_projects.sort()
     return filtered_projects
-    
+
+
+def get_valid_number(prompt: str, lower_bound: float | None = None, upper_bound: float | None = None,
+                     none_allowed: bool = False) -> float | None:
+    """Repeatedly ask for a valid number based on passed in parameters until satisfied."""
+    is_valid = False
+    valid_number = None
+    while not is_valid:
+        try:
+            number = input(prompt).strip()
+            if not (none_allowed and number == ""):
+                number = float(number)
+                if lower_bound is not None and number < lower_bound:
+                    print("Number must be bigger than " + str(lower_bound))
+                elif upper_bound is not None and number > upper_bound:
+                    print("Number must be smaller than " + str(upper_bound))
+                else:
+                    valid_number = number
+                    is_valid = True
+            else:
+                is_valid = True
+        except ValueError:
+            print("Please enter a valid number!!")
+    return valid_number
+
 
 if __name__ == "__main__":
     # main()
