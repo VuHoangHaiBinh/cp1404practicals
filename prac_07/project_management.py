@@ -40,7 +40,8 @@ def main():
         elif choice == 'f':
             date = get_valid_date("Show projects that start after date (dd/mm/yy): ")
             filtered_projects = filter_projects(date, projects)
-            print(project for project in filtered_projects)
+            for project in filtered_projects:
+                print(project)
 
         elif choice == 'u':
             for index, project in enumerate(projects):
@@ -143,7 +144,7 @@ def get_valid_date(prompt: str) -> str:
     while not is_valid:
         try:
             date = input(prompt)
-            _ = datetime.strptime(date, "%d/%m/%Y")  # _ means for unsed variable
+            datetime.strptime(date, "%d/%m/%Y")
             is_valid = True
         except ValueError:
             print("Invalid date format!! Please try again!!")
