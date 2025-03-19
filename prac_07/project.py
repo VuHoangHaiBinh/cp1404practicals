@@ -8,6 +8,8 @@ DATE_FORMAT = "%d/%m/%Y"
 
 
 class Project:
+    """Project class for storing project information."""
+
     def __init__(self, name: str, start_date: str, priority: int, estimated_cost: float,
                  completion: int):
         """Initialize class constructor with parameters."""
@@ -19,25 +21,31 @@ class Project:
 
     def __str__(self) -> str:
         """Get formatted class information."""
-        return f"{self.name}, start: {self.start_date}, priority {self.priority}, estimate: ${self.estimated_cost:.2f}, completion: {self.completion}%"
+        return (f"{self.name},"
+                f" start: {self.start_date},"
+                f" priority {self.priority},"
+                f" estimate: ${self.estimated_cost:.2f},"
+                f" completion: {self.completion}%")
 
     def __lt__(self, other) -> bool:
         """Get class comparison feature."""
         return self.priority < other.priority
 
     def is_after_date(self, date: str) -> bool:
-        """Get if class start_time is after the passed in time."""
-        return datetime.strptime(self.start_date, DATE_FORMAT) >= datetime.strptime(date, DATE_FORMAT)
+        """Get if class start_time is after passed in time."""
+        return (datetime.strptime(self.start_date, DATE_FORMAT)
+                >= datetime.strptime(date, DATE_FORMAT))
 
 
 def test():
+    """Test for bugs or unwanted behaviors."""
     project1 = Project("test", "11/11/2020", 2, 20.0, 0)
-    print(project1)  # Expect: test, start: 11/11/2020, priority 2, estimated: $20.00, completion: 0%
+    print(project1)  # Expect test, start: 11/11/2020, priority 2, estimated: $20.00, completion: 0%
     print(project1.is_after_date("10/11/2020"))  # Expect: True
 
     project2 = Project("test", "10/11/2020", 1, 20.0, 0)
     projects = [project1, project2]
-    projects.sort()  # Expect: project 2 first then 1
+    projects.sort()  # Expect project 2 first then 1
     for project in projects:
         print(project)
 
