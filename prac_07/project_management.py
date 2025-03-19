@@ -24,7 +24,7 @@ def main():
     choice = input(">>> ").lower()
     while choice != 'q':
         if choice == 'l':
-            filename = get_valid_name()
+            filename = get_valid_name("Filename: ")
             projects = load_projects(filename)
 
         elif choice == 'd':
@@ -65,3 +65,21 @@ def main():
         print(MENU)
         choice = input(">>> ").lower()
 
+
+
+def test():
+    name = get_valid_name("Name: ") # Expect: input ' ' -> retry
+
+
+
+def get_valid_name(prompt): 
+    """Repeatedly ask for name until valid."""
+    name = input(prompt).strip()
+    while name == '':
+        print("Name cannot be blank")
+        name = input(prompt).strip()
+    return name
+
+if __name__ == "__main__":
+    # main()
+    test()
