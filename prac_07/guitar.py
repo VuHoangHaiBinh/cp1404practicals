@@ -1,6 +1,6 @@
 """
 Estimated: 5 minutes
-Actual: minutes
+Actual: 5 minutes
 """
 
 from datetime import datetime
@@ -18,9 +18,11 @@ class Guitar:
         self.cost = cost
 
     def __str__(self):
+        """Add string representation for class."""
         return f"{self.name} ({self.year}) : ${self.cost}"
 
     def __lt__(self, other):
+        """Add class comparing compability."""
         return self.year < other.year
 
     def get_age(self):
