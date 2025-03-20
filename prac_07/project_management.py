@@ -3,7 +3,9 @@ Estimated time: 30 minutes
 Actual time: 90 minutes
 """
 from datetime import datetime
+from operator import attrgetter
 
+from project import DATE_FORMAT
 from project import Project
 
 FILENAME = "projects.txt"
@@ -31,20 +33,19 @@ def main():
         elif choice == 'd':
             incomplete_projects, completed_projects = categorize_project(projects)
             print("Incomplete projects:")
-            for project in incomplete_projects:
-                print(f"\t{project}")
+            print(f"{'\n'.join('\t'+str(project) for project in incomplete_projects)}")
             print("Completed projects:")
-            for project in completed_projects:
-                print(f"\t{project}")
+            print(f"{'\n'.join('\t'+str(project) for project in completed_projects)}")
 
         elif choice == 'f':
-            date = get_valid_date("Show projects that start after date (dd/mm/yy): ")
+            date = get_valid_date("Show projects that start after date (dd/mm/yy): ", DATE_FORMAT)
             filtered_projects = filter_projects(date, projects)
             for project in filtered_projects:
                 print(project)
 
         elif choice == 'u':
-            print(f"{index} {project}" for index, project in enumerate(projects))
+            for index, project in enumerate(projects):
+                print(f"{index} {project}")
             project_choice = int(get_valid_number("Project choice: ",
                                                   lower_bound=0,
                                                   upper_bound=len(projects) - 1))
@@ -66,7 +67,7 @@ def main():
         elif choice == 'a':
             print("Let's add a new project")
             name = get_valid_name("Name: ")
-            start_date = get_valid_date("Start date (dd/mm/yy): ")
+            start_date = get_valid_date("Start date (dd/mm/yy): ", DATE_FORMAT)
             priority = int(get_valid_number("Priority: ",
                                             lower_bound=1,
                                             upper_bound=None))
@@ -105,8 +106,9 @@ def test():
     incomplete_projects, completed_projects = categorize_project(projects)
     print(len(incomplete_projects))  # Expect: 4
     print(len(completed_projects))  # Expect: 1
-    print(get_valid_date("Date: "))  # Expect: input - 41/2/2020 -> retry
-    filtered_projects = filter_projects("1/1/2022", projects)  # Expect 20/07 31/10 01/12
+    print(get_valid_date("Date: ", DATE_FORMAT))  # Expect: input - 41/2/2020 -> retry
+    filtered_projects = filter_projects(datetime.strptime("1/1/2022", DATE_FORMAT),
+                                        projects)  # Expect 20/07 31/10 01/12
     for project in filtered_projects:
         print(project)
     print(get_valid_number("Num: "))  # Expect: all number valid, letter retry
@@ -138,7 +140,7 @@ def load_projects(filename: str) -> list[Project]:
             for line in lines:
                 parameters = line.split('\t')
                 name = parameters[0]
-                start_date = parameters[1]
+                start_date = datetime.strptime(parameters[1], DATE_FORMAT)
                 priority = int(parameters[2])
                 estimated_cost = float(parameters[3])
                 completion = int(parameters[4])
@@ -162,24 +164,23 @@ def categorize_project(projects: list[Project]) -> tuple[list[Project], list[Pro
     return incomplete_projects, completed_projects
 
 
-def get_valid_date(prompt: str) -> str:
+def get_valid_date(prompt: str, date_format: str) -> datetime:
     """Ask for date string and convert it to date format until valid and return."""
-    date = ""
     is_valid = False
     while not is_valid:
         try:
             date = input(prompt)
-            datetime.strptime(date, "%d/%m/%Y")
+            date = datetime.strptime(date, date_format)
             is_valid = True
         except ValueError:
             print("Invalid date format!! Please try again!!")
     return date
 
 
-def filter_projects(date: str, projects: list[Project]) -> list[Project]:
+def filter_projects(date: datetime, projects: list[Project]) -> list[Project]:
     """Filter a list of projects that was created after a specified date and sorted."""
     filtered_projects = [project for project in projects if project.is_after_date(date)]
-    filtered_projects.sort()
+    filtered_projects.sort(key=attrgetter("start_date"))
     return filtered_projects
 
 
