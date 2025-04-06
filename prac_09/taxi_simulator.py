@@ -7,7 +7,7 @@ from silver_service_taxi import SilverServiceTaxi
 MENU = "q)uit, c)hoose taxi, d)rive"
 
 def main():
-    """Taxi simulation program that repeatedly ask user to choose / drive taxi and calcaulate bill."""
+    """Taxi simulation program that repeatedly ask user to choose, drive, and calculate fare for taxi."""
     current_taxi = None
     taxis = [Taxi("Prius", 100), SilverServiceTaxi("Limo", 100, 2), SilverServiceTaxi("Hummer", 200, 4)]
     bill = 0
@@ -44,6 +44,24 @@ def display_taxis(taxis):
     """Display all taxi objects in taxis list with index."""
     for index, taxi in enumerate(taxis):
         print(f"{index} - {str(taxi)}")
+
+def get_valid_number(prompt, lower_bound=None, upper_bound=None):
+    """Repeatedly ask for a valid number based on passed in parameters until satisfied."""
+    is_valid = False
+    valid_number = None
+    while not is_valid:
+        try:
+            number = int(input(prompt))
+            if lower_bound is not None and number < lower_bound:
+                print("Number must be bigger than " + str(lower_bound))
+            elif upper_bound is not None and number > upper_bound:
+                print("Number must be smaller than " + str(upper_bound))
+            else:
+                valid_number = number
+                is_valid = True
+        except ValueError:
+            print("Please enter a valid number!!")
+    return valid_number
 
 
 if __name__ == "__main__":
