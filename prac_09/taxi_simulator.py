@@ -7,6 +7,7 @@ from silver_service_taxi import SilverServiceTaxi
 MENU = "q)uit, c)hoose taxi, d)rive"
 
 def main():
+    """Taxi simulation program that repeatedly ask user to choose / drive taxi and calcaulate bill."""
     current_taxi = None
     taxis = [Taxi("Prius", 100), SilverServiceTaxi("Limo", 100, 2), SilverServiceTaxi("Hummer", 200, 4)]
     bill = 0
@@ -38,6 +39,11 @@ def main():
     print("Taxis are now:")
     display_taxis(taxis)
 
+
+def display_taxis(taxis):
+    """Display all taxi objects in taxis list with index."""
+    for index, taxi in enumerate(taxis):
+        print(f"{index} - {str(taxi)}")
 
 
 if __name__ == "__main__":
