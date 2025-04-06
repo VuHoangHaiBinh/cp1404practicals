@@ -63,6 +63,15 @@ def get_valid_number(prompt, lower_bound=None, upper_bound=None):
             print("Please enter a valid number!!")
     return valid_number
 
+def choose_taxi(prompt, taxis):
+    """Ask for taxi choice and validate if the object is accessile."""
+    try:
+        choice = get_valid_number(prompt)
+        chosen_taxi = taxis[choice]
+        return chosen_taxi
+    except IndexError:
+        print("Invalid taxi choice")
+
 
 if __name__ == "__main__":
     main()
