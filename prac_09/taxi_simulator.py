@@ -72,6 +72,14 @@ def choose_taxi(prompt, taxis):
     except IndexError:
         print("Invalid taxi choice")
 
+def drive_taxi(taxi):
+    """Ask for distance, reset last trip distance then drive and get the price after."""
+    distance = get_valid_number("Drive how far? ", lower_bound=0)
+    taxi.start_fare()
+    taxi.drive(distance)
+    price = taxi.get_fare() 
+    return price
+
 
 if __name__ == "__main__":
     main()
