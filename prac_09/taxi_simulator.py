@@ -1,15 +1,15 @@
-# TODO: The user should be able to choose from a list of available taxis,
-# They can choose how far they want to drive,
-# TODO: At the end of each trip, show them the trip cost and add it to their bill.
-from taxi import Taxi
 from silver_service_taxi import SilverServiceTaxi
+from taxi import Taxi
 
 MENU = "q)uit, c)hoose taxi, d)rive"
+
 
 def main():
     """Taxi simulation program that repeatedly ask user to choose, drive, and calculate fare for taxi."""
     current_taxi = None
-    taxis = [Taxi("Prius", 100), SilverServiceTaxi("Limo", 100, 2), SilverServiceTaxi("Hummer", 200, 4)]
+    taxis = [Taxi("Prius", 100),
+             SilverServiceTaxi("Limo", 100, 2),
+             SilverServiceTaxi("Hummer", 200, 4)]
     bill = 0
 
     print("Let's drive!")
@@ -45,6 +45,7 @@ def display_taxis(taxis):
     for index, taxi in enumerate(taxis):
         print(f"{index} - {str(taxi)}")
 
+
 def get_valid_number(prompt, lower_bound=None, upper_bound=None):
     """Repeatedly ask for a valid number based on passed in parameters until satisfied."""
     is_valid = False
@@ -63,8 +64,9 @@ def get_valid_number(prompt, lower_bound=None, upper_bound=None):
             print("Please enter a valid number!!")
     return valid_number
 
+
 def choose_taxi(prompt, taxis):
-    """Ask for taxi choice and validate if the object is accessile."""
+    """Ask for taxi choice and validate if the object is accessible."""
     try:
         choice = get_valid_number(prompt)
         chosen_taxi = taxis[choice]
@@ -72,12 +74,13 @@ def choose_taxi(prompt, taxis):
     except IndexError:
         print("Invalid taxi choice")
 
+
 def drive_taxi(taxi):
     """Ask for distance, reset last trip distance then drive and get the price after."""
     distance = get_valid_number("Drive how far? ", lower_bound=0)
     taxi.start_fare()
     taxi.drive(distance)
-    price = taxi.get_fare() 
+    price = taxi.get_fare()
     return price
 
 
