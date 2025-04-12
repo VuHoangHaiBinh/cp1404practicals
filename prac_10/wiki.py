@@ -11,7 +11,8 @@ def main():
             print(search_result.url)
 
         except wikipedia.exceptions.DisambiguationError as suggestion:
-            pass
+            print("We need a more specific title. Try one of the following, or a new search:")
+            print(suggestion.__dict__["options"])
 
         except wikipedia.exceptions.PageError:
             pass
