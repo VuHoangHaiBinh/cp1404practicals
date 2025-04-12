@@ -33,6 +33,8 @@ def convert_to_sentence(phrase):
     Hi there.
     >>> convert_to_sentence("It is an ex parrot.")
     'It is an ex parrot.'
+    >>> convert_to_sentence("   ")
+    ""
     """
     pass
 
