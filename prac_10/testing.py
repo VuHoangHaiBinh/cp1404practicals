@@ -28,15 +28,21 @@ def convert_to_sentence(phrase):
     """
     Convert a phrase into a sentence.
     >>> convert_to_sentence("hello")
-    Hello.
+    'Hello.'
     >>> convert_to_sentence("hi there")
-    Hi there.
+    'Hi there.'
     >>> convert_to_sentence("It is an ex parrot.")
     'It is an ex parrot.'
     >>> convert_to_sentence("   ")
-    ""
+    ''
     """
-    pass
+    sentence = phrase.strip().capitalize()
+
+    if sentence != "" and sentence[-1] != ".":
+        sentence += "."
+
+    return sentence
+
 
 
 def run_tests():
