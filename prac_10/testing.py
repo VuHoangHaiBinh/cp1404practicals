@@ -24,6 +24,18 @@ def is_long_word(word, length=5):
     """
     return len(word) >= length
 
+def convert_to_sentence(phrase):
+    """
+    Convert a phrase into a sentence.
+    >>> convert_to_sentence("hello")
+    Hello.
+    >>> convert_to_sentence("hi there")
+    Hi there.
+    >>> convert_to_sentence("It is an ex parrot.")
+    'It is an ex parrot.'
+    """
+    pass
+
 
 def run_tests():
     """Run the tests on the functions."""
