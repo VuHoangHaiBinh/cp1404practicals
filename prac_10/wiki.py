@@ -15,7 +15,7 @@ def main():
             print(suggestion.__dict__["options"])
 
         except wikipedia.exceptions.PageError:
-            pass
+            print(f'Page id "{title}" does not match any pages. Try another id!')
 
         title = input("Enter page title: ").strip()
     print("Thank you")
